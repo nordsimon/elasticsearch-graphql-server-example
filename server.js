@@ -17,8 +17,8 @@ esGraphQL({
     type: 'order'
   },
   hitsSchema: hitsSchema
-},function(err, schema) {
-
+})
+.then(function(schema) {
   app.use(cors());
 
   app.use('/graphql', graphqlHTTP({
