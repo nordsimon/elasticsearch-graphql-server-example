@@ -1,12 +1,12 @@
 var esGraphQL = require('elasticsearch-graphql')
-var graphql = require('graphql');
+var graphql = require('graphql')
 var hitsSchema = require('./schema')
 
-var graphqlHTTP = require('express-graphql');
+var graphqlHTTP = require('express-graphql')
 var express = require('express')
 var cors = require('cors')
 
-var app = express();
+var app = express()
 
 esGraphQL({
   graphql: graphql,
@@ -18,22 +18,23 @@ esGraphQL({
   },
   hitsSchema: hitsSchema
 })
-.then(function(schema) {
-  app.use(cors());
+  .then(function (schema) {
+    app.use(cors())
 
-  app.use('/graphql', graphqlHTTP({
-    schema: new graphql.GraphQLSchema({
-      query: new graphql.GraphQLObjectType({
-        name: 'RootQueryType',
-        fields: {
-          ordersSearch: {
-            type: schema.type,
-            args: schema.args,
-            resolve: schema.resolve
+    app.use('/graphql', graphqlHTTP({
+      schema: new graphql.GraphQLSchema({
+        query: new graphql.GraphQLObjectType({
+          name: 'RootQueryType',
+          fields: {
+            ordersSearch: {
+              type: schema.type,
+              args: schema.args,
+              resolve: schema.resolve
+            }
           }
-        }
-      })
-  }), graphiql: true }));
+        })
+      }), graphiql: true
+    }))
 
-  app.listen(8000)
-})
+    app.listen(8000)
+  })
