@@ -25,7 +25,7 @@ var ordersSearchSchema = esGraphQL({
   name: 'ordersSearch',
   mapping: mapping, // enter your elasticsearch mapping here
   elastic: {
-    host: 'localhost:9200',
+    host: 'docker:9200',
     index: 'orders',
     type: 'order'
   },
