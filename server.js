@@ -7,34 +7,60 @@ var express = require('express')
 var cors = require('cors')
 
 var app = express()
-
 var mapping = {
-  mappings: {
-    order: {
-      properties: {
-        author : {
-          type : "string",
-          index : "not_analyzed"
+  "properties" : {
+    "H178cWirX" : {
+      "type" : "string",
+      "fields" : {
+        "autocomplete" : {
+          "type" : "string",
+          "analyzer" : "autocomplete"
+        },
+        "raw" : {
+          "type" : "string",
+          "index" : "not_analyzed"
         }
       }
+    },
+    "Hyf8cbjr7" : {
+      "type" : "string",
+      "fields" : {
+        "autocomplete" : {
+          "type" : "string",
+          "analyzer" : "autocomplete"
+        },
+        "raw" : {
+          "type" : "string",
+          "index" : "not_analyzed"
+        }
+      }
+    },
+    "system_created" : {
+      "type" : "long"
     }
   }
 }
+
 var ordersSearchSchema = esGraphQL({
   graphql: graphql,
   name: 'ordersSearch',
   mapping: mapping, // enter your elasticsearch mapping here
   elastic: {
-    host: 'docker:9200',
-    index: 'orders',
-    type: 'order'
+    host: 'http://localhost:9200',
+    index: 't_r1ll5bihq',
+    type: 'record',
+    query: function(query, context) {
+      debugger
+      return query
+    },
   },
   hitsSchema: hitsSchema
 })
 
 app.use(cors())
 
-app.use('/graphql', graphqlHTTP({
+var graphqlMiddleware = graphqlHTTP(request => ({
+  graphiql: true,
   schema: new graphql.GraphQLSchema({
     query: new graphql.GraphQLObjectType({
       name: 'RootQueryType',
@@ -42,7 +68,10 @@ app.use('/graphql', graphqlHTTP({
         ordersSearch: ordersSearchSchema
       }
     })
-  }), graphiql: true
+  }),
+  context: request
 }))
 
-app.listen(8000)
+app.use('/graphql', graphqlMiddleware);
+
+app.listen(8100)

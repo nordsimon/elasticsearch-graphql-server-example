@@ -11,10 +11,22 @@ NOTE: In order to test this, you will need access to a elastic search server wit
 esGraphQL({
   graphql: graphql,
   name: 'yourSchemaName',
+  mapping: {
+    "properties": {
+      "id": {
+        "type" : "string",
+        "index" : "not_analyzed"
+      },
+      ...
+    }
+  },
   elastic: {
     host: 'localhost:9200',
     index: 'index',
-    type: 'type'
+    type: 'type',
+    query: function(query, context) {
+      return query
+    }
   },
   hitsSchema: hitsSchema
 })

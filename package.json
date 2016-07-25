@@ -12,9 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "cors": "2.7.1",
-    "elasticsearch-graphql": "2.0.1",
+    "elasticsearch-graphql": "3.0.0",
     "express": "4.13.3",
-    "express-graphql": "0.4.5",
-    "graphql": "0.4.14"
+    "express-graphql": "0.5.3",
+    "graphql": "0.6.2"
   }
 }
