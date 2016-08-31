@@ -1,15 +1,15 @@
 var graphql = require('graphql')
 
 module.exports = {
-  resolve: function (hits, params, data) {
-    console.log('Will fetch', hits.map(function (hit) { return hit._id }).join(', '), 'from anywhere')
+  resolve: function (res, params, data) {
+    console.log('Will fetch', res.hits.hits.map(function (hit) { return hit._id }).join(', '), 'from anywhere')
     return new Promise(function (resolve, reject) {
-      resolve(hits)
+      resolve(res.hits.hits)
     })
   },
   args: {
   },
-  type: new graphql.GraphQLObjectType({
+  type: new graphql.GraphQLList(new graphql.GraphQLObjectType({
     name: 'ExampleSchema',
     description: 'This is just an raw example schema',
     fields: function () {
@@ -34,5 +34,5 @@ module.exports = {
         }
       }
     }
-  })
+  }))
 }
